@@ -22,9 +22,7 @@ const Users = () => {
       <div className="card-header py-3">
         <div className="container-fluid">
           <div className="d-sm-flex align-items-center justify-content-between mb-4">
-            <h6 className="m-0 font-weight-bold text-primary">
-              DataTables Example
-            </h6>
+            <h6 className="m-0 font-weight-bold text-primary">User Table</h6>
             <Link
               to="/portal/Users/CreateUsers"
               className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
