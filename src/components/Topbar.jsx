@@ -1,4 +1,10 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSearch,
+  faBell,
+  faEnvelope,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Topbar = () => {
   return (
@@ -7,9 +13,7 @@ const Topbar = () => {
       <button
         id="sidebarToggleTop"
         className="btn btn-link d-md-none rounded-circle mr-3"
-      >
-        <i className="fa fa-bars"></i>
-      </button>
+      ></button>
       {/* 
                     <!-- Topbar Search --> */}
       <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
@@ -23,7 +27,7 @@ const Topbar = () => {
           />
           <div className="input-group-append">
             <button className="btn btn-primary" type="button">
-              <i className="fas fa-search fa-sm"></i>
+              <FontAwesomeIcon icon={faSearch} />
             </button>
           </div>
         </div>
@@ -79,7 +83,7 @@ const Topbar = () => {
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <i className="fas fa-bell fa-fw"></i>
+            <FontAwesomeIcon icon={faBell} size="lg" />
             {/* <!-- Counter - Alerts --> */}
             <span className="badge badge-danger badge-counter">3+</span>
           </a>
@@ -145,7 +149,7 @@ const Topbar = () => {
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <i className="fas fa-envelope fa-fw"></i>
+            <FontAwesomeIcon icon={faEnvelope} size="lg" />
             {/* <!-- Counter - Messages --> */}
             <span className="badge badge-danger badge-counter">7</span>
           </a>
@@ -250,7 +254,7 @@ const Topbar = () => {
             </span>
             <img
               className="img-profile rounded-circle"
-              src="img/undraw_profile.svg"
+              src="https://undraw.co/apple-touch-icon.png"
             />
           </a>
           {/* <!-- Dropdown - User Information --> */}
