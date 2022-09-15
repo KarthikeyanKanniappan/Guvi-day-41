@@ -3,21 +3,25 @@ import Card from "./Card";
 
 let data = [
   {
+    id: 1,
     title: "EARNINGS (MONTHLY)",
     money: "$40,000",
     color: "primary",
   },
   {
+    id: 2,
     title: "EARNINGS (ANNUAL)",
     money: "$215,000",
     color: "success",
   },
   {
+    id: 3,
     title: "TASKS",
     money: "50%",
     color: "info",
   },
   {
+    id: 4,
     title: "PENDING REQUESTS",
     money: "18",
     color: "warning",

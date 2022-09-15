@@ -4,19 +4,37 @@ import axios from "axios";
 
 const Users = () => {
   const [data, setData] = useState([]);
+
   useEffect(() => {
-    async function getStoreData() {
-      try {
-        const response = await axios.get(
-          "https://62ff9b659350a1e548e2995c.mockapi.io/for"
-        );
-        setData(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
     getStoreData();
   }, []);
+
+  async function getStoreData() {
+    try {
+      const response = await axios.get(
+        "https://62ff9b659350a1e548e2995c.mockapi.io/for"
+      );
+      setData(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  let userDelete = async (id, el) => {
+    try {
+      await axios.delete(
+        `https://62ff9b659350a1e548e2995c.mockapi.io/for/${id}`
+      );
+      setData((current) =>
+        current.filter((data) => {
+          return data.id !== el.id;
+        })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="card shadow mb-4">
       <div className="card-header py-3">
@@ -50,6 +68,7 @@ const Users = () => {
                 <th>Age</th>
                 <th>Start date</th>
                 <th>Salary</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tfoot>
@@ -61,6 +80,7 @@ const Users = () => {
                 <th>Age</th>
                 <th>Start date</th>
                 <th>Salary</th>
+                <th>Action</th>
               </tr>
             </tfoot>
             <tbody>
@@ -74,6 +94,26 @@ const Users = () => {
                     <td>{el.Age}</td>
                     <td>{el.Startdate}</td>
                     <td>{el.Salary}</td>
+                    <td>
+                      <Link
+                        to={`/portal/Users/${el.id}`}
+                        className="btn btn-sm btn-warning mr-2 "
+                      >
+                        View
+                      </Link>
+                      <Link
+                        to={`/portal/Users/EditUser/${el.id}`}
+                        className="btn btn-sm btn-primary mr-2 "
+                      >
+                        Edit
+                      </Link>
+                      <button
+                        onClick={() => userDelete(el.id, el)}
+                        className="btn btn-sm btn-danger mr-2 "
+                      >
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 );
               })}

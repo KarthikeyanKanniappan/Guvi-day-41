@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import "../App.css";
 import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
+import "../App.css";
 
-const CreateUsers = () => {
+const EditUser = () => {
+  const params = useParams();
+  const navigate = useNavigate();
+  useEffect(() => {
+    getUser(params.id);
+  }, []);
+
+  let getUser = async (id) => {
+    try {
+      let response = await axios.get(
+        `https://62ff9b659350a1e548e2995c.mockapi.io/for/${id}`
+      );
+      formik.setValues({
+        Name: response.data.Name,
+        Position: response.data.Position,
+        Office: response.data.Office,
+        Age: response.data.Age,
+        Startdate: response.data.Startdate,
+        Salary: response.data.Salary,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       Name: "",
@@ -24,11 +49,11 @@ const CreateUsers = () => {
       return errors;
     },
     onSubmit: async (values) => {
-      let user = await axios.post(
-        "https://62ff9b659350a1e548e2995c.mockapi.io/for",
+      await axios.put(
+        `https://62ff9b659350a1e548e2995c.mockapi.io/for/${params.id}`,
         values
       );
-      alert("User Created");
+      navigate("/portal/Users");
     },
   });
   return (
@@ -129,4 +154,4 @@ const CreateUsers = () => {
   );
 };
 
-export default CreateUsers;
+export default EditUser;
