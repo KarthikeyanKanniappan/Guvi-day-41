@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { env } from "../config";
 
 const Userview = () => {
   const [data, setData] = useState([]);
@@ -11,9 +12,11 @@ const Userview = () => {
 
   let getUser = async (id) => {
     try {
-      let response = await axios.get(
-        `https://62ff9b659350a1e548e2995c.mockapi.io/for/${id}`
-      );
+      let response = await axios.get(`${env.api}/user/${id}`, {
+        headers: {
+          Authorization: window.localStorage.getItem("app-token"),
+        },
+      });
       setData(response.data);
     } catch (err) {
       console.log(err);

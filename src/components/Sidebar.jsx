@@ -5,8 +5,13 @@ import {
   faFaceLaughWink,
   faGaugeHigh,
 } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  let navigate = useNavigate();
+  let logout = () => {
+    navigate("/");
+  };
   return (
     <ul
       className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
@@ -53,6 +58,11 @@ const Sidebar = () => {
         </Link>
       </li>
       {/* <!-- Divider --> */}
+      <li>
+        <button onClick={logout} className="btn btn-primary btn-user btn-block">
+          Logout
+        </button>
+      </li>
       {/* <!-- Nav Item - Utilities Collapse Menu --> */}
     </ul>
   );

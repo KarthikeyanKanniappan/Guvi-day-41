@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "../App.css";
+import { env } from "../config";
 
 const EditUser = () => {
   const params = useParams();
@@ -13,9 +14,11 @@ const EditUser = () => {
 
   let getUser = async (id) => {
     try {
-      let response = await axios.get(
-        `https://62ff9b659350a1e548e2995c.mockapi.io/for/${id}`
-      );
+      let response = await axios.get(`${env.api}/user/${id}`, {
+        headers: {
+          Authorization: window.localStorage.getItem("app-token"),
+        },
+      });
       formik.setValues({
         Name: response.data.Name,
         Position: response.data.Position,
@@ -49,10 +52,11 @@ const EditUser = () => {
       return errors;
     },
     onSubmit: async (values) => {
-      await axios.put(
-        `https://62ff9b659350a1e548e2995c.mockapi.io/for/${params.id}`,
-        values
-      );
+      await axios.put(`${env.api}/user/${params.id}`, values, {
+        headers: {
+          Authorization: window.localStorage.getItem("app-token"),
+        },
+      });
       navigate("/portal/Users");
     },
   });

@@ -2,6 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import "../App.css";
 import axios from "axios";
+import { env } from "../config";
 
 const CreateUsers = () => {
   const formik = useFormik({
@@ -24,10 +25,11 @@ const CreateUsers = () => {
       return errors;
     },
     onSubmit: async (values) => {
-      let user = await axios.post(
-        "https://62ff9b659350a1e548e2995c.mockapi.io/for",
-        values
-      );
+      let user = await axios.post(`${env.api}/user`, values, {
+        headers: {
+          Authorization: window.localStorage.getItem("app-token"),
+        },
+      });
       alert("User Created");
     },
   });

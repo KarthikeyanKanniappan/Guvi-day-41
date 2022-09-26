@@ -1,17 +1,38 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import axios from "axios";
+import { env } from "../config";
 
 const Login = () => {
   let navigate = useNavigate();
-  let username = "WelcomeUser";
-  let password = "1233";
-  let login = () => {
-    if (username === "WelcomeUser" && password === "1233") {
-      navigate("/portal/dashboard");
-    } else {
-      alert("Wrong Credientials");
-    }
-  };
+  // let username = "WelcomeUser";
+  // let password = "1233";
+  // let login = () => {
+  //   if (username === "WelcomeUser" && password === "1233") {
+  //     navigate("/portal/dashboard");
+  //   } else {
+  //     alert("Wrong Credientials");
+  //   }
+  // };
+  let formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: async (values) => {
+      try {
+        let loginData = await axios.post(`${env.api}/login`, values);
+        if (loginData.status === 200) {
+          window.localStorage.setItem("app-token", loginData.data.token);
+          navigate("/portal/dashboard");
+        }
+      } catch (err) {
+        console.log(err);
+        alert(err.response.data.message);
+      }
+    },
+  });
   return (
     <div className="container">
       {/* <!-- Outer Row --> */}
@@ -27,13 +48,14 @@ const Login = () => {
                     <div className="text-center">
                       <h1 className="h4 text-gray-900 mb-4">Welcome Back!</h1>
                     </div>
-                    <form className="user">
+                    <form className="user" onSubmit={formik.handleSubmit}>
                       <div className="form-group">
                         <input
                           type="email"
                           className="form-control form-control-user"
-                          id="exampleInputEmail"
-                          aria-describedby="emailHelp"
+                          value={formik.values.email}
+                          onChange={formik.handleChange}
+                          name="email"
                           placeholder="Enter Email Address..."
                         />
                       </div>
@@ -41,7 +63,9 @@ const Login = () => {
                         <input
                           type="password"
                           className="form-control form-control-user"
-                          id="exampleInputPassword"
+                          value={formik.values.password}
+                          onChange={formik.handleChange}
+                          name="password"
                           placeholder="Password"
                         />
                       </div>
@@ -60,39 +84,23 @@ const Login = () => {
                           </label>
                         </div>
                       </div>
-                      <a
-                        onClick={login}
-                        href="#"
+                      <button
+                        type="submit"
                         className="btn btn-primary btn-user btn-block"
                       >
                         Login
-                      </a>
+                      </button>
                       <hr />
-                      <a
-                        href="index.html"
-                        className="btn btn-google btn-user btn-block"
-                      >
-                        <i className="fab fa-google fa-fw"></i> Login with
-                        Google
-                      </a>
-                      <a
-                        href="index.html"
-                        className="btn btn-facebook btn-user btn-block"
-                      >
-                        <i className="fab fa-facebook-f fa-fw"></i> Login with
-                        Facebook
-                      </a>
                     </form>
                     <hr />
-                    <div className="text-center">
-                      <a className="small" href="forgot-password.html">
-                        Forgot Password?
-                      </a>
+                    <div style={{ color: "black" }} className="text-center">
+                      Please enter <br /> <b>email address</b> :
+                      perosn1@gmail.com,
+                      <br />
+                      <b>password</b> : hello
                     </div>
-                    <div className="text-center">
-                      <a className="small" href="register.html">
-                        Create an Account!
-                      </a>
+                    <div style={{ color: "black" }} className="text-center">
+                      <b>Note</b>:Website will be active for 5mints
                     </div>
                   </div>
                 </div>

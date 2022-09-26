@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import { env } from "../config";
 const Users = () => {
   const [data, setData] = useState([]);
 
@@ -11,9 +11,11 @@ const Users = () => {
 
   async function getStoreData() {
     try {
-      const response = await axios.get(
-        "https://62ff9b659350a1e548e2995c.mockapi.io/for"
-      );
+      const response = await axios.get(`${env.api}/users`, {
+        headers: {
+          Authorization: window.localStorage.getItem("app-token"),
+        },
+      });
       setData(response.data);
     } catch (err) {
       console.log(err);
@@ -22,12 +24,15 @@ const Users = () => {
 
   let userDelete = async (id, el) => {
     try {
-      await axios.delete(
-        `https://62ff9b659350a1e548e2995c.mockapi.io/for/${id}`
-      );
+      await axios.delete(`${env.api}/user/${id}`, {
+        headers: {
+          Authorization: window.localStorage.getItem("app-token"),
+        },
+      });
+
       setData((current) =>
         current.filter((data) => {
-          return data.id !== el.id;
+          return data._id !== el._id;
         })
       );
     } catch (err) {
@@ -40,7 +45,9 @@ const Users = () => {
       <div className="card-header py-3">
         <div className="container-fluid">
           <div className="d-sm-flex align-items-center justify-content-between mb-4">
-            <h6 className="m-0 font-weight-bold text-primary">User Table</h6>
+            <h6 className="m-0 font-weight-bold text-primary">
+              User Table- Data are from_MongoDb
+            </h6>
             <Link
               to="/portal/Users/CreateUsers"
               className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
@@ -96,19 +103,19 @@ const Users = () => {
                     <td>{el.Salary}</td>
                     <td>
                       <Link
-                        to={`/portal/Users/${el.id}`}
+                        to={`/portal/Users/${el._id}`}
                         className="btn btn-sm btn-warning mr-2 "
                       >
                         View
                       </Link>
                       <Link
-                        to={`/portal/Users/EditUser/${el.id}`}
+                        to={`/portal/Users/EditUser/${el._id}`}
                         className="btn btn-sm btn-primary mr-2 "
                       >
                         Edit
                       </Link>
                       <button
-                        onClick={() => userDelete(el.id, el)}
+                        onClick={() => userDelete(el._id, el)}
                         className="btn btn-sm btn-danger mr-2 "
                       >
                         Delete
